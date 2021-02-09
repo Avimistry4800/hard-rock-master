@@ -1,11 +1,18 @@
 const searchSongs = async()=>{
     const searchText = document.getElementById('search-field').value;
     const url = `https://api.lyrics.ovh/suggest/${searchText}`
-    const res= await fetch(url);
-    const data = await res.json();
-    displaySongs(data.data);
+    try {
+        const res= await fetch(url);
+        const data = await res.json();
+        displaySongs(data.data);
+           
+       } catch (error) {
+        displayError("Sorry result is not available right now!!... try again later!!...  " + error);
+       }
+    }
+    
 
-}
+
 
 const displaySongs = songs => {
     const songContainer = document.getElementById('song-container');
@@ -30,21 +37,25 @@ const displaySongs = songs => {
     })
 }
 
-// const getLyric = async(artist,title) =>{
-//     const url = `https://api.lyrics.ovh/v1/${artist}/${title}`
-//     const res = await fetch(url);
-//     const data = await res.json();
-//     displayLyrics(data.lyrics);
-
-// }
-
-const getLyric = (artist,title) =>{
-    const url = `https://api.lyris.ovh/v1/${artist}/${title}`
-    fetch(url)
-    .then(res => res.json())
-    .then(data => displayLyrics(data.lyrics))
-    .catch(error => displayError("Sorry lyric is not available right now!!... try again later!!...  " + error));
+const getLyric = async(artist,title) =>{
+    const url = `https://api.lyrics.ovh/v1/${artist}/${title}`
+   try {
+    const res = await fetch(url);
+    const data = await res.json();
+    displayLyrics(data.lyrics);
+       
+   } catch (error) {
+    displayError("Sorry lyric is not available right now!!... try again later!!...  " + error);
+   }
 }
+
+// const getLyric = (artist,title) =>{
+//     const url = `https://api.lyris.ovh/v1/${artist}/${title}`
+//     fetch(url)
+//     .then(res => res.json())
+//     .then(data => displayLyrics(data.lyrics))
+//     .catch(error => displayError("Sorry lyric is not available right now!!... try again later!!...  " + error));
+// }
 
 const displayLyrics = lyrics =>{
     const lyricsDiv = document.getElementById("song-Lyrics");
