@@ -30,15 +30,28 @@ const displaySongs = songs => {
     })
 }
 
-const getLyric = async(artist,title) =>{
-    const url = `https://api.lyrics.ovh/v1/${artist}/${title}`
-    const res = await fetch(url);
-    const data = await res.json();
-    displayLyrics(data.lyrics);
+// const getLyric = async(artist,title) =>{
+//     const url = `https://api.lyrics.ovh/v1/${artist}/${title}`
+//     const res = await fetch(url);
+//     const data = await res.json();
+//     displayLyrics(data.lyrics);
 
+// }
+
+const getLyric = (artist,title) =>{
+    const url = `https://api.lyris.ovh/v1/${artist}/${title}`
+    fetch(url)
+    .then(res => res.json())
+    .then(data => displayLyrics(data.lyrics))
+    .catch(error => displayError("Sorry lyric is not available right now!!... try again later!!...  " + error));
 }
 
 const displayLyrics = lyrics =>{
     const lyricsDiv = document.getElementById("song-Lyrics");
     lyricsDiv.innerText = lyrics;
+}
+
+const displayError = error =>{
+    const errorMassage = document.getElementById("handle-error");
+    errorMassage.innerText = error;
 }
